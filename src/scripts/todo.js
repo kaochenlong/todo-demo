@@ -1,4 +1,7 @@
-import { initPages } from "./pages"
-initPages()
+import Alpine from "alpinejs"
+import Main from "./main"
 
-// 程式碼寫在這裡
+window.Alpine = Alpine
+Alpine.data("Main", Main)
+
+Alpine.start()
