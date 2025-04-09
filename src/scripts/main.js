@@ -9,11 +9,13 @@ const Main = () => ({
   nickname: "",
   password: "",
   isLogin: false,
+  todos: [],
   init() {
     const token = localStorage.getItem(TOKEN_NAME)
     if (token) {
       this.isLogin = true
       this.showTaskInput()
+      this.getTodos()
     }
   },
   clearText() {
@@ -29,6 +31,24 @@ const Main = () => ({
   },
   showTaskInput() {
     this.showSection = "taskSection"
+  },
+  async getTodos() {
+    const url = "https://todoo.5xcamp.us/todos"
+    const token = localStorage.getItem(TOKEN_NAME)
+
+    if (token) {
+      const config = { headers: { Authorization: token } }
+
+      try {
+        const { data } = await axios.get(url, config)
+        const { todos } = data
+
+        // console.log(todos)
+        this.todos = todos
+      } catch (err) {
+        console.log(err)
+      }
+    }
   },
   async logout() {
     const url = "https://todoo.5xcamp.us/users/sign_out"
@@ -62,6 +82,7 @@ const Main = () => ({
         this.clearText()
         this.isLogin = true
         this.showTaskInput()
+        this.getTodos()
       } catch (err) {
         console.log(err)
       }
