@@ -88,6 +88,7 @@ const Main = () => ({
 
       this.isLogin = false
       localStorage.removeItem(TOKEN_NAME)
+      this.todos = []
       this.showLogin()
     }
   },
