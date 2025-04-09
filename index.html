@@ -130,9 +130,10 @@
                   <p x-text="todo.content" class="content"></p>
                 </label>
               </div>
+
               <div class="item-control">
                 <a href="#" class="edit"><img class="icon" src="src/assets/pen-to-square-solid.svg" /></a>
-                <a href="#" class="delete"><img class="icon" src="src/assets/trash-can-solid.svg" /></a>
+                <a @click.prevent="deleteTodo(todo.id)" href="#" class="delete"><img class="icon" src="src/assets/trash-can-solid.svg" /></a>
               </div>
             </li>
           </template>

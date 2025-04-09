@@ -33,6 +33,26 @@ const Main = () => ({
   showTaskInput() {
     this.showSection = "taskSection"
   },
+  async deleteTodo(id) {
+    const token = localStorage.getItem(TOKEN_NAME)
+
+    if (token) {
+      const url = `https://todoo.5xcamp.us/todos/${id}`
+      const config = { headers: { Authorization: token } }
+      this.$el.parentNode.parentNode.remove()
+
+      try {
+        await axios.delete(url, config)
+      } catch {
+        Swal.fire({
+          title: "錯誤",
+          html: "無法刪除資料，請稍候再試",
+          icon: "error",
+          confirmButtonText: "確認",
+        })
+      }
+    }
+  },
   async addTodo() {
     const token = localStorage.getItem(TOKEN_NAME)
 
