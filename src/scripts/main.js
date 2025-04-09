@@ -31,24 +31,19 @@ const Main = () => ({
     this.showSection = "taskSection"
   },
   async logout() {
-    // 使用 delete 登出的 API
     const url = "https://todoo.5xcamp.us/users/sign_out"
-    // 傳 token 給 API
     const token = localStorage.getItem(TOKEN_NAME)
-    if (token) {
-      axios.defaults.headers.common["Authorization"] = token
-      const resp = await axios.delete(url)
-      console.log(resp)
-    }
 
-    // 成功：
-    //   isLogin = false
-    //   清 localStorage
-    //   換畫面到登入頁面
-    // 失敗：
-    //   isLogin = false
-    //   清 localStorage
-    //   換畫面到登入頁面
+    if (token) {
+      try {
+        const config = { headers: { Authorization: token } }
+        await axios.delete(url, config)
+      } catch {}
+
+      this.isLogin = false
+      localStorage.removeItem(TOKEN_NAME)
+      this.showLogin()
+    }
   },
   async login() {
     if (this.email != "" && this.password != "") {
