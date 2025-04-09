@@ -112,8 +112,8 @@
       <template x-if="showSection == 'taskSection'">
         <section id="taskSection">
           <form id="todoForm">
-            <input type="text" id="taskInput" autocomplete="off" spellcheck="false" placeholder="做點重要的事吧..." />
-            <button id="addTodoBtn">新增</button>
+            <input x-model="task" type="text" id="taskInput" autocomplete="off" spellcheck="false" placeholder="做點重要的事吧..." />
+            <button id="addTodoBtn" @click.prevent="addTodo" class="cursor-pointer">新增</button>
           </form>
         </section>
       </template>
@@ -127,7 +127,7 @@
               <div class="item-content">
                 <label>
                   <input type="checkbox" />
-                  <p class="content">我要發大財</p>
+                  <p x-text="todo.content" class="content"></p>
                 </label>
               </div>
               <div class="item-control">

@@ -10,6 +10,7 @@ const Main = () => ({
   password: "",
   isLogin: false,
   todos: [],
+  task: "",
   init() {
     const token = localStorage.getItem(TOKEN_NAME)
     if (token) {
@@ -32,6 +33,28 @@ const Main = () => ({
   showTaskInput() {
     this.showSection = "taskSection"
   },
+  async addTodo() {
+    const token = localStorage.getItem(TOKEN_NAME)
+
+    if (token && this.task != "") {
+      const url = "https://todoo.5xcamp.us/todos"
+      const todoData = {
+        todo: {
+          content: this.task,
+        },
+      }
+      const config = { headers: { Authorization: token } }
+
+      try {
+        const { data } = await axios.post(url, todoData, config)
+        this.task = ""
+        this.todos.unshift(data)
+      } catch (err) {
+        // sweet alert
+        console.log(err)
+      }
+    }
+  },
   async getTodos() {
     const url = "https://todoo.5xcamp.us/todos"
     const token = localStorage.getItem(TOKEN_NAME)
@@ -42,11 +65,14 @@ const Main = () => ({
       try {
         const { data } = await axios.get(url, config)
         const { todos } = data
-
-        // console.log(todos)
         this.todos = todos
-      } catch (err) {
-        console.log(err)
+      } catch {
+        Swal.fire({
+          title: "錯誤",
+          html: "無法新增資料，請稍候再試",
+          icon: "error",
+          confirmButtonText: "確認",
+        })
       }
     }
   },
@@ -84,7 +110,12 @@ const Main = () => ({
         this.showTaskInput()
         this.getTodos()
       } catch (err) {
-        console.log(err)
+        Swal.fire({
+          title: "錯誤",
+          html: "登入失敗",
+          icon: "error",
+          confirmButtonText: "確認",
+        })
       }
     }
   },
