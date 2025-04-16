@@ -26,6 +26,20 @@
     </header>
 
     <main class="px-6 todo-app main" x-data="Main">
+      <dialog x-ref="modal" class="modal">
+        <div class="modal-box">
+          <h3 class="text-lg font-bold">待辦事項</h3>
+          <input x-model="todoText" type="text" class="mt-4 input w-full input-bordered" />
+          <div class="modal-action">
+            <form method="dialog">
+              <!-- if there is a button in form, it will close the modal -->
+              <button class="btn">取消</button>
+            </form>
+            <button @click.prevent="updateTodo" class="btn btn-neutral">更新</button>
+          </div>
+        </div>
+      </dialog>
+
       <header>
         <nav class="navbar">
           <template x-if="!isLogin">
@@ -132,7 +146,7 @@
               </div>
 
               <div class="item-control">
-                <a href="#" class="edit"><img class="icon" src="src/assets/pen-to-square-solid.svg" /></a>
+                <a @click.prevent="editTodo(todo.id)" href="#" class="edit"><img class="icon" src="src/assets/pen-to-square-solid.svg" /></a>
                 <a @click.prevent="deleteTodo(todo.id)" href="#" class="delete"><img class="icon" src="src/assets/trash-can-solid.svg" /></a>
               </div>
             </li>

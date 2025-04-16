@@ -18,6 +18,7 @@ const Main = () => ({
   isLogin: false,
   todos: [],
   task: "",
+  todoText: "",
   init() {
     const token = localStorage.getItem(TOKEN_NAME)
     if (token) {
@@ -39,6 +40,35 @@ const Main = () => ({
   },
   showTaskInput() {
     this.showSection = "taskSection"
+  },
+  editTodo(id) {
+    const todo = this.todos.find((todo) => todo.id == id)
+
+    if (todo) {
+      this.todoText = todo.content
+      this.$refs.modal.dataset.id = id
+      this.$refs.modal.showModal()
+    }
+  },
+  async updateTodo() {
+    const { id } = this.$refs.modal.dataset
+    const token = localStorage.getItem(TOKEN_NAME)
+
+    if (id && token) {
+      const url = `https://todoo.5xcamp.us/todos/${id}`
+      const config = { headers: { Authorization: token } }
+      const todoData = {
+        todo: {
+          content: this.todoText,
+        },
+      }
+
+      try {
+        await axios.put(url, todoData, config)
+      } catch {
+        console.log("error")
+      }
+    }
   },
   async deleteTodo(id) {
     const token = localStorage.getItem(TOKEN_NAME)
