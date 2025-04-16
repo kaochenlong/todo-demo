@@ -92,23 +92,25 @@ const Main = () => ({
     }
   },
   async deleteTodo(id) {
-    const token = localStorage.getItem(TOKEN_NAME)
+    if (confirm("確認刪除？")) {
+      const token = localStorage.getItem(TOKEN_NAME)
 
-    if (token) {
-      const url = `https://todoo.5xcamp.us/todos/${id}`
-      const config = { headers: { Authorization: token } }
+      if (token) {
+        const url = `https://todoo.5xcamp.us/todos/${id}`
+        const config = { headers: { Authorization: token } }
 
-      removeTodo(this.todos, id)
+        removeTodo(this.todos, id)
 
-      try {
-        await axios.delete(url, config)
-      } catch {
-        Swal.fire({
-          title: "錯誤",
-          html: "無法刪除資料，請稍候再試",
-          icon: "error",
-          confirmButtonText: "確認",
-        })
+        try {
+          await axios.delete(url, config)
+        } catch {
+          Swal.fire({
+            title: "錯誤",
+            html: "無法刪除資料，請稍候再試",
+            icon: "error",
+            confirmButtonText: "確認",
+          })
+        }
       }
     }
   },
