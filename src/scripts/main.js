@@ -3,6 +3,13 @@ import Swal from "sweetalert2"
 
 const TOKEN_NAME = "user_token"
 
+function removeTodo(todos, id) {
+  const idx = todos.findIndex((todo) => todo.id == id)
+  if (idx >= 0) {
+    todos.splice(idx, 1)
+  }
+}
+
 const Main = () => ({
   showSection: "loginSection",
   email: "",
@@ -39,7 +46,8 @@ const Main = () => ({
     if (token) {
       const url = `https://todoo.5xcamp.us/todos/${id}`
       const config = { headers: { Authorization: token } }
-      this.$el.parentNode.parentNode.remove()
+
+      removeTodo(this.todos, id)
 
       try {
         await axios.delete(url, config)
