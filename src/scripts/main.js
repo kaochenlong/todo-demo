@@ -64,6 +64,12 @@ const Main = () => ({
       }
 
       try {
+        // 1. 關視窗
+        this.$refs.modal.close()
+        // 2. 更新資料
+        const todo = this.todos.find((todo) => todo.id == id)
+        todo.content = this.todoText
+
         await axios.put(url, todoData, config)
       } catch {
         console.log("error")
