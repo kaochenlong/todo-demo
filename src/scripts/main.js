@@ -1,5 +1,6 @@
 import axios from "axios"
 import Swal from "sweetalert2"
+import { debounce } from "throttle-debounce"
 
 const TOKEN_NAME = "user_token"
 
@@ -9,6 +10,17 @@ function removeTodo(todos, id) {
     todos.splice(idx, 1)
   }
 }
+
+const toggleTodoFunc = debounce(500, (id) => {
+  const token = localStorage.getItem(TOKEN_NAME)
+  const url = `https://todoo.5xcamp.us/todos/${id}/toggle`
+  const config = { headers: { Authorization: token } }
+  try {
+    axios.patch(url, null, config)
+  } catch {
+    console.log("error")
+  }
+})
 
 const Main = () => ({
   showSection: "loginSection",
@@ -49,6 +61,9 @@ const Main = () => ({
       this.$refs.modal.dataset.id = id
       this.$refs.modal.showModal()
     }
+  },
+  toggleTodo(id) {
+    toggleTodoFunc(id)
   },
   async updateTodo() {
     const { id } = this.$refs.modal.dataset

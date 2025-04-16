@@ -140,7 +140,7 @@
             <li class="completed">
               <div class="item-content">
                 <label>
-                  <input type="checkbox" />
+                  <input @click="toggleTodo(todo.id)" type="checkbox" :checked="todo.completed_at" />
                   <p x-text="todo.content" class="content"></p>
                 </label>
               </div>
